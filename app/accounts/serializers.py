@@ -7,14 +7,13 @@ class UserSerializer(serializers.ModelSerializer):
     """serializer for user model"""
     password = serializers.CharField(
         style={'input_type': 'password'},
-        trim_whitespace=False)
+        trim_whitespace=False,
+        write_only=True,
+        min_length=5)
 
     class Meta:
         model = get_user_model()
         fields = ('name', 'email', 'password')
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
 
     def create(self, validated_data):
         """Overrider create to user encrypted password than return it"""
