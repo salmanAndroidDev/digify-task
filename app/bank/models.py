@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 from core.models import BaseModelMixin
 from django.conf import settings
 from .exceptions import AccountAlreadyExistError
@@ -56,8 +58,7 @@ class Account(BaseModelMixin):
                                   decimal_places=2,
                                   validators=[MinValueValidator(0.0)])
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+    def save(self, *args, **kwargs):
         """
             Save the account only if there is no account belong to this user
             in this bank
@@ -65,10 +66,75 @@ class Account(BaseModelMixin):
 
         if not Account.objects.filter(branch__bank=self.branch.bank,
                                       user=self.user).exists():
-            return super().save(force_insert, force_update,
-                                using, update_fields)
+            return super().save(args, kwargs)
         else:
             raise AccountAlreadyExistError()
 
     def __str__(self):
         return f"{self.user} {self.branch} {self.balance}"
+
+
+class Transaction(BaseModelMixin):
+    """
+        Transaction model to save transaction information
+    """
+    transfer_ct = models.ForeignKey(ContentType,
+                                    blank=True,
+                                    null=True,
+                                    related_name='transfer_obj',
+                                    on_delete=models.CASCADE)
+    transfer_id = models.UUIDField(null=True,
+                                   blank=True,
+                                   db_index=True)
+    transfer_info = GenericForeignKey('transfer_ct', 'transfer_id')
+
+    def __str__(self):
+        return str(type)
+
+
+class BaseTransaction(BaseModelMixin):
+    """
+        Base abstract transaction that all other transactions
+        inherit from
+    """
+    amount = models.DecimalField(max_digits=10,
+                                 decimal_places=2,
+                                 validators=[MinValueValidator(0.0)])
+
+    account = models.ForeignKey(Account,
+                                on_delete=models.SET_NULL,
+                                null=True)
+
+    class Meta:
+        abstract: True
+
+    def __str__(self):
+        name = self.__class__.__name__  # class name
+        return f"{self.amount}\tto\t{self.account}\t{name}"
+
+
+class Withdraw(BaseTransaction):
+    """Withdraw model get money from the account"""
+    pass
+
+
+class Deposit(BaseTransaction):
+    """Deposit model to save money to account"""
+    pass
+
+
+class Pay(BaseTransaction):
+    """Pay model to send money to an account"""
+    pass
+
+
+class Transfer(BaseTransaction):
+    """Transfer money from the account to another account"""
+    to_account = models.ForeignKey(Account,
+                                   on_delete=models.SET_NULL,
+                                   null=True)
+
+    def __str__(self):
+        name = self.__class__.__name__  # class name
+        return f"{self.amount}\tfrom\t{self.account}\tto\t" \
+               f"{self.to_account}\t{name}"

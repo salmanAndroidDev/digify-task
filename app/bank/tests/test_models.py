@@ -1,7 +1,8 @@
 from django.db import IntegrityError
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from ..models import Bank, Branch, Account
+from ..models import Bank, Branch, Account, Transaction, Withdraw, \
+    Deposit, Pay, Transfer
 from ..exceptions import AccountAlreadyExistError
 
 
@@ -26,6 +27,20 @@ def sample_branch(bank=None, name='USB', address='USB city', teller=None):
 
     return Branch.objects.create(name=name, address=address, bank=bank,
                                  teller=teller)
+
+
+def initialize_data_for_transaction(user1, user2, user3, user4, user5):
+    """Initialize data for testing transaction"""
+    meli = sample_bank(name='Meli', banker=user1)
+    pasargad = sample_bank(name='Pasargad', banker=user2)
+
+    branch_a = sample_branch(name='branch a', bank=meli, teller=user3)
+    branch_b = sample_branch(name='branch b', bank=pasargad, teller=user4)
+
+    account_a = Account.objects.create(user=user5, branch=branch_a)
+    account_b = Account.objects.create(user=user4, branch=branch_b)
+
+    return account_a, account_b
 
 
 class TestModel(TestCase):
@@ -115,3 +130,24 @@ class TestModel(TestCase):
 
         accounts = Account.objects.filter(user=self.user5).count()
         self.assertEqual(accounts, 2)
+
+    def test_transaction_works_successfully(self):
+        """Test that transaction works as expected"""
+        account_a, account_b = initialize_data_for_transaction(
+            self.user1, self.user2, self.user3, self.user4, self.user5,
+        )
+
+        data = {'amount': 5000.00, 'account': account_a}
+
+        withdraw = Withdraw.objects.create(**data)
+        deposit = Deposit.objects.create(**data)
+        pay = Pay.objects.create(**data)
+        data['to_account'] = account_b
+        transfer = Transfer.objects.create(**data)
+
+        Transaction.objects.create(transfer_info=withdraw)
+        Transaction.objects.create(transfer_info=deposit)
+        Transaction.objects.create(transfer_info=pay)
+        Transaction.objects.create(transfer_info=transfer)
+
+        self.assertEqual(Transaction.objects.count(), 4)
