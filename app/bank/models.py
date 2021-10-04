@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from core.models import BaseModelMixin
 from django.conf import settings
+from .exceptions import AccountAlreadyExistError
 
 
 class Bank(BaseModelMixin):
@@ -51,8 +52,19 @@ class Account(BaseModelMixin):
                                   decimal_places=2,
                                   validators=[MinValueValidator(0.0)])
 
-    # class Meta:
-    #     unique_together = ('user', 'bank')
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        """
+            Save the account only if there is no account belong to this user
+            in this bank
+        """
+
+        if not Account.objects.filter(branch__bank=self.branch.bank,
+                                      user=self.user).exists():
+            return super().save(force_insert, force_update,
+                                using, update_fields)
+        else:
+            raise AccountAlreadyExistError()
 
     def __str__(self):
         return f"{self.user} {self.branch} {self.balance}"
