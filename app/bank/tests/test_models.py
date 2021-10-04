@@ -115,4 +115,3 @@ class TestModel(TestCase):
 
         accounts = Account.objects.filter(user=self.user5).count()
         self.assertEqual(accounts, 2)
-
