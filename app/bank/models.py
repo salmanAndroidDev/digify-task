@@ -5,7 +5,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from core.models import BaseModelMixin
 from django.conf import settings
-from .exceptions import AccountAlreadyExistError
 
 
 class Bank(BaseModelMixin):
@@ -14,8 +13,7 @@ class Bank(BaseModelMixin):
     """
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    banker = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                  on_delete=models.CASCADE)
+    banker = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.name}"
@@ -25,13 +23,10 @@ class Branch(BaseModelMixin):
     """
         Branch model stores information related to each branch
     """
-    bank = models.ForeignKey(Bank,
-                             on_delete=models.CASCADE,
-                             related_name='branches')
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE, related_name='branches')
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    teller = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                  on_delete=models.CASCADE)
+    teller = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('bank', 'teller')
@@ -67,18 +62,6 @@ class Account(BaseModelMixin):
                                   decimal_places=2,
                                   validators=[MinValueValidator(0.0)])
 
-    def save(self, *args, **kwargs):
-        """
-            Save the account only if there is no account belong to this user
-            in this bank
-        """
-
-        if not Account.objects.filter(branch__bank=self.branch.bank,
-                                      user=self.user).exists():
-            return super().save(args, kwargs)
-        else:
-            raise AccountAlreadyExistError()
-
     def __str__(self):
         return f"{self.user} {self.branch} {self.balance}"
 
@@ -92,15 +75,15 @@ class Transaction(BaseModelMixin):
                                null=True,
                                related_name='transactions')
 
-    transfer_ct = models.ForeignKey(ContentType,
-                                    blank=True,
-                                    null=True,
-                                    related_name='transfer_obj',
-                                    on_delete=models.CASCADE)
-    transfer_id = models.UUIDField(null=True,
-                                   blank=True,
-                                   db_index=True)
-    transfer_info = GenericForeignKey('transfer_ct', 'transfer_id')
+    transaction_ct = models.ForeignKey(ContentType,
+                                       blank=True,
+                                       null=True,
+                                       related_name='transaction_obj',
+                                       on_delete=models.CASCADE)
+    transaction_id = models.UUIDField(null=True,
+                                      blank=True,
+                                      db_index=True)
+    transaction_type = GenericForeignKey('transaction_ct', 'transaction_id')
 
     def __str__(self):
         return str(type)
