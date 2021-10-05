@@ -138,3 +138,5 @@ class Transfer(BaseTransaction):
         name = self.__class__.__name__  # class name
         return f"{self.amount}\tfrom\t{self.account}\tto\t" \
                f"{self.to_account}\t{name}"
+
+# TODO: CREATE Load Model

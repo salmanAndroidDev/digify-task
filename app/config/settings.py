@@ -26,13 +26,13 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
 
     'accounts.apps.AccountsConfig',
     'bank.apps.BankConfig',
 ]
 
 # Application definition
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
