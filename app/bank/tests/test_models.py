@@ -36,9 +36,14 @@ def initialize_data_for_transaction(user1, user2, user3, user4, user5):
 
     branch_a = sample_branch(name='branch a', bank=meli, teller=user3)
     branch_b = sample_branch(name='branch b', bank=pasargad, teller=user4)
+    account_number = 1111111111111111
 
-    account_a = Account.objects.create(user=user5, branch=branch_a)
-    account_b = Account.objects.create(user=user4, branch=branch_b)
+    account_a = Account.objects.create(user=user5,
+                                       branch=branch_a,
+                                       number=account_number)
+    account_b = Account.objects.create(user=user4,
+                                       branch=branch_b,
+                                       number=account_number + 1)
 
     return account_a, account_b
 
@@ -82,10 +87,29 @@ class TestModel(TestCase):
         data = {
             'user': self.user1,
             'branch': sample_branch(),
+            'number': 1111111111111113
+
         }
         account = Account.objects.create(**data)
         for key in data.keys():
             self.assertEquals(getattr(account, key), data[key])
+
+    def test_create_account_same_number_fail(self):
+        """
+            Test that creating multiple account with the same
+            card number fails
+        """
+        bank = sample_bank()
+        branch_a = sample_branch(name='branch a', bank=bank, teller=self.user4)
+
+        number = 1111111111111111
+        data1 = {'user': self.user1, 'branch': branch_a, 'number': number}
+        data2 = {'user': self.user2, 'branch': branch_a, 'number': number}
+
+        Account.objects.create(**data1)
+
+        with self.assertRaises(IntegrityError):
+            Account.objects.create(**data2)
 
     def test_multiple_account_for_each_bank_fails(self):
         """Test that for each bank ONLY one account can be created"""
@@ -93,19 +117,16 @@ class TestModel(TestCase):
         branch_a = sample_branch(name='branch a', bank=bank, teller=self.user4)
         branch_b = sample_branch(name='branch b', bank=bank, teller=self.user5)
 
-        data1 = {'user': self.user1, 'branch': branch_a}
-        data2 = {'user': self.user1, 'branch': branch_a}
-        data3 = {'user': self.user1, 'branch': branch_b}
+        number = 1111111111111111
+        data1 = {'user': self.user1, 'branch': branch_a, 'number': number}
+        data2 = {'user': self.user1, 'branch': branch_a, 'number': number + 1}
+        data3 = {'user': self.user1, 'branch': branch_b, 'number': number + 2}
 
         Account.objects.create(**data1)
 
-        #  creating 2 accounts with the same user and same bank fails
-        #  with the same branch
         with self.assertRaises(AccountAlreadyExistError):
             Account.objects.create(**data2)
 
-        #  creating 2 accounts with the same user and same bank fails
-        #  with different branches
         with self.assertRaises(AccountAlreadyExistError):
             Account.objects.create(**data3)
 
@@ -125,8 +146,12 @@ class TestModel(TestCase):
                                  bank=pasargad_bank,
                                  teller=self.user4)
 
-        Account.objects.create(user=self.user5, branch=branch_a)
-        Account.objects.create(user=self.user5, branch=branch_b)
+        Account.objects.create(user=self.user5,
+                               branch=branch_a,
+                               number=1111111111111121)
+        Account.objects.create(user=self.user5,
+                               branch=branch_b,
+                               number=1111111111113121)
 
         accounts = Account.objects.filter(user=self.user5).count()
         self.assertEqual(accounts, 2)

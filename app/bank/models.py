@@ -1,5 +1,6 @@
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, \
+    MaxValueValidator
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from core.models import BaseModelMixin
@@ -44,6 +45,9 @@ class Account(BaseModelMixin):
         Account model stores information related to each customer and
         relationship he/she has with each bank
     """
+    ACCOUNT_MIN_NUMBER = 1000000000000000
+    ACCOUNT_MAX_NUMBER = 9999999999999999
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
                              related_name='accounts')
@@ -52,6 +56,11 @@ class Account(BaseModelMixin):
                                on_delete=models.SET_NULL,
                                null=True,
                                related_name='customers')
+
+    number = models.BigIntegerField(unique=True,
+                                    validators=[
+                                        MinValueValidator(ACCOUNT_MIN_NUMBER),
+                                        MaxValueValidator(ACCOUNT_MAX_NUMBER)])
 
     balance = models.DecimalField(default=0.0,
                                   max_digits=10,
@@ -78,6 +87,11 @@ class Transaction(BaseModelMixin):
     """
         Transaction model to save transaction information
     """
+    branch = models.ForeignKey(Branch,
+                               on_delete=models.SET_NULL,
+                               null=True,
+                               related_name='transactions')
+
     transfer_ct = models.ForeignKey(ContentType,
                                     blank=True,
                                     null=True,
