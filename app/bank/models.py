@@ -13,7 +13,8 @@ class Bank(BaseModelMixin):
     """
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    banker = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    banker = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                  on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.name}"
@@ -23,10 +24,12 @@ class Branch(BaseModelMixin):
     """
         Branch model stores information related to each branch
     """
-    bank = models.ForeignKey(Bank, on_delete=models.CASCADE, related_name='branches')
+    bank = models.ForeignKey(Bank, on_delete=models.CASCADE,
+                             related_name='branches')
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    teller = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    teller = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                  on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('bank', 'teller')

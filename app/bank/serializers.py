@@ -1,6 +1,4 @@
 from rest_framework import serializers
-
-from .exceptions import AccountAlreadyExistError
 from .models import Account, BaseTransaction
 
 

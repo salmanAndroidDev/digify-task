@@ -2,8 +2,7 @@ from django.urls import reverse
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 from django.contrib.auth import get_user_model
-from ..models import Bank, Branch, Account, Transaction
-from ..serializers import SerializerCreator as Creator
+from ..models import Bank, Branch, Account
 
 
 def sample_user(email='test@gmail.com', password='test1234'):
@@ -53,9 +52,9 @@ class TestModel(APITestCase):
         response = self.client.post(url, data=payload)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        account_exist = Account.objects.filter(user=self.user1,
-                                               branch__id=payload['branch'],
-                                               number=payload['number']).exists()
+        account_exist = Account.objects.filter(
+            user=self.user1, branch__id=payload['branch'],
+            number=payload['number']).exists()
         self.assertTrue(account_exist)
 
     def test_create_multiple_account_fail(self):
@@ -74,8 +73,10 @@ class TestModel(APITestCase):
         self.client.force_authenticate(self.user1)
         response = self.client.post(url, data=payload)
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        accounts_number = Account.objects.filter(user=self.user1).count()
+        self.assertEqual(response.status_code,
+                         status.HTTP_400_BAD_REQUEST)
+        accounts_number = Account.objects.filter(user=self.user1) \
+            .count()
         self.assertEqual(accounts_number, 1)
 
     def test_no_auth_create_account_fail(self):
@@ -161,7 +162,8 @@ class TestModel(APITestCase):
         response = self.client.post(url, data=payload)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         account.refresh_from_db()
-        self.assertEqual(account.balance, (data['balance'] - payload['amount']))
+        self.assertEqual(account.balance,
+                         (data['balance'] - payload['amount']))
 
     def test_withdraw_cant_exceed(self):
         """Test that withdrawing money more than balance won't work"""
@@ -175,19 +177,26 @@ class TestModel(APITestCase):
         url = reverse('withdraw', args=[self.branch.id])
         self.client.force_authenticate(self.branch.teller)
         response = self.client.post(url, data=payload)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)  # TODO Fix this!
+        self.assertEqual(response.status_code,
+                         status.HTTP_201_CREATED)  # TODO Fix this!
         account.refresh_from_db()
         self.assertEqual(account.balance, data['balance'])
 
     def test_transfer_works_successfully(self):
         """Test that transfer works as expected"""
         number, balance = 1111111111111111, 1000.00
-        from_account = Account.objects.create(user=self.user5, branch=self.branch,
-                                              number=number, balance=balance)
-        to_account = Account.objects.create(user=self.user4, branch=self.branch,
-                                            number=number + 2, balance=balance)
+        from_account = Account.objects.create(user=self.user5,
+                                              branch=self.branch,
+                                              number=number,
+                                              balance=balance)
+        to_account = Account.objects.create(user=self.user4,
+                                            branch=self.branch,
+                                            number=number + 2,
+                                            balance=balance)
 
-        payload = {'amount': 500, 'account': from_account.id, 'to_account': to_account.id}
+        payload = {'amount': 500,
+                   'account': from_account.id,
+                   'to_account': to_account.id}
 
         url = reverse('transfer', args=[self.branch.id])
         self.client.force_authenticate(self.branch.teller)
@@ -201,17 +210,24 @@ class TestModel(APITestCase):
     def test_transfer_less_money_fail(self):
         """Test that transfering fails when the balance get's less than zero"""
         number, balance = 1111111111111111, 100.00
-        from_account = Account.objects.create(user=self.user5, branch=self.branch,
-                                              number=number, balance=balance)
-        to_account = Account.objects.create(user=self.user4, branch=self.branch,
-                                            number=number + 2, balance=balance)
+        from_account = Account.objects.create(user=self.user5,
+                                              branch=self.branch,
+                                              number=number,
+                                              balance=balance)
+        to_account = Account.objects.create(user=self.user4,
+                                            branch=self.branch,
+                                            number=number + 2,
+                                            balance=balance)
 
-        payload = {'amount': 500, 'account': from_account.id, 'to_account': to_account.id}
+        payload = {'amount': 500,
+                   'account': from_account.id,
+                   'to_account': to_account.id}
 
         url = reverse('transfer', args=[self.branch.id])
         self.client.force_authenticate(self.branch.teller)
         response = self.client.post(url, data=payload)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)  # TODO oops fix this!
+        self.assertEqual(response.status_code,
+                         status.HTTP_201_CREATED)  # TODO oops fix this!
         from_account.refresh_from_db()
         to_account.refresh_from_db()
         self.assertEqual(from_account.balance, balance)
