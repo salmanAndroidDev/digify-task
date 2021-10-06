@@ -1,5 +1,16 @@
 from rest_framework import serializers
-from .models import Account, BaseTransaction
+from .models import Account, BaseTransaction, Transaction, Branch
+
+
+class BranchSerializer(serializers.ModelSerializer):
+    """
+        Model serializer to create branch
+    """
+
+    class Meta:
+        model = Branch
+        fields = ('name', 'address', 'teller','bank')
+        extra_kwargs = {"bank": {'read_only': True}}
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -43,7 +54,17 @@ class SerializerCreator:
                      'ref_name': model.__name__,  # add this field for swagger
                      })
 
-        Serializer = type('TransactionSerializer',
+        Serializer = type('TransactionTypeSerializer',
                           (serializers.ModelSerializer,),
                           {'Meta': Meta})
         return Serializer
+
+
+class TransactionSerializer(serializers.ModelSerializer):
+    """
+        Transaction Serializer to serialize transactions
+    """
+
+    class Meta:
+        model = Transaction
+        fields = ('branch', 'transaction_type')

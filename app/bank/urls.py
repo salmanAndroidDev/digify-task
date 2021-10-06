@@ -21,4 +21,9 @@ urlpatterns = [
     path('transfer/<pk>/',
          views.TransferAPIView.as_view(),
          name='transfer'),
+
+    path('create-branch/',
+         views.CreateBranchAPIView.as_view(),
+         name='create_branch')
+
 ]

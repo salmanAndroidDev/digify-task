@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, \
     MaxValueValidator
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from core.models import BaseModelMixin
 from django.conf import settings
 
@@ -81,7 +81,7 @@ class Transaction(BaseModelMixin):
     transaction_ct = models.ForeignKey(ContentType,
                                        blank=True,
                                        null=True,
-                                       related_name='transaction_obj',
+                                       related_name='transaction_type',
                                        on_delete=models.CASCADE)
     transaction_id = models.UUIDField(null=True,
                                       blank=True,
@@ -89,7 +89,7 @@ class Transaction(BaseModelMixin):
     transaction_type = GenericForeignKey('transaction_ct', 'transaction_id')
 
     def __str__(self):
-        return str(type)
+        return f'{self.transaction_type}'
 
 
 class BaseTransaction(BaseModelMixin):
@@ -110,12 +110,11 @@ class BaseTransaction(BaseModelMixin):
 
     def __str__(self):
         name = self.__class__.__name__  # class name
-        return f"{self.amount}\tto\t{self.account}\t{name}"
+        return f"{name}\t{self.amount}\tto\t{self.account.user}"
 
 
 class Withdraw(BaseTransaction):
     """Withdraw model get money from the account"""
-    pass
 
 
 class Deposit(BaseTransaction):

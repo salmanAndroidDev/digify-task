@@ -1,8 +1,10 @@
+from django.db.models import Q
 from django.urls import reverse
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 from django.contrib.auth import get_user_model
-from ..models import Bank, Branch, Account
+from ..models import Bank, Branch, Account, Withdraw, Pay, Deposit, Transaction
+from ..serializers import TransactionSerializer
 
 
 def sample_user(email='test@gmail.com', password='test1234'):
@@ -257,3 +259,27 @@ class TestModel(APITestCase):
         to_account.refresh_from_db()
         self.assertEqual(from_account.balance, balance)
         self.assertEqual(to_account.balance, balance)
+
+    def test_banker_can_create_branch(self):
+        """Test that banker can create branch"""
+        payload = {'name': 'Iran',
+                   'teller': self.user5.id,
+                   'address': 'somewhere in Iran'}
+        bank = sample_bank()
+        url = reverse('create_branch')
+        self.client.force_authenticate(bank.banker)
+        response = self.client.post(url, data=payload)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        payload['bank'] = bank.id
+        for key in payload.keys():
+            self.assertEqual(response.data[key], payload[key])
+
+    def test_not_banker_can_not_create_branch(self):
+        """Test that only banker can create branch"""
+        payload = {'name': 'Iran',
+                   'teller': self.user5.id,
+                   'address': 'somewhere in Iran'}
+        url = reverse('create_branch')
+        self.client.force_authenticate(self.user5)
+        response = self.client.post(url, data=payload)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

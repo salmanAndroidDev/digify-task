@@ -3,9 +3,9 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
-from .models import Account, Branch, Deposit, Transaction, Withdraw, Transfer
+from .models import Account, Branch, Deposit, Transaction, Withdraw, Transfer, Bank
 from .permissions import IsTeller
-from .serializers import AccountSerializer, SerializerCreator
+from .serializers import AccountSerializer, SerializerCreator, TransactionSerializer, BranchSerializer
 from . import utils
 
 
@@ -125,3 +125,15 @@ class TransferAPIView(DepositPaymentWithdrawMixin):
 
         # TODO oops fix next line it returns 201!
         return Response(status=status.HTTP_409_CONFLICT)
+
+
+class CreateBranchAPIView(AuthenticationMixin, generics.CreateAPIView):
+    """
+        API Endpoint, creating branch by banker
+    """
+    serializer_class = BranchSerializer
+
+    def perform_create(self, serializer):
+        """Set bank to current bankers bank before creating branch"""
+        bank = get_object_or_404(Bank, banker=self.request.user)
+        return serializer.save(bank=bank)
