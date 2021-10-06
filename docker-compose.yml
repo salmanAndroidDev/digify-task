@@ -31,4 +31,4 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
 
-# TODO: add Rdis service to store token authentication in the memory
+# TODO: add Redis service to store token authentication in the memory

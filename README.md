@@ -10,3 +10,4 @@ to run this project you need to have `docker` and `docker-compose` installed, th
 `docker-compose up`<br>
 if you like to apply tests, then type below command<br>
 `docker-compose run web sh -c "cd app && python manage.py test && flake8"`<br>
+to see API documentation lookup `http://localhost:8000/swagger/` url<br>

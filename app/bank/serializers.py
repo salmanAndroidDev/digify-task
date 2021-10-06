@@ -36,11 +36,11 @@ class SerializerCreator:
     def model_serializer_factory(model):
         """Factory to create generic ModelSerializer"""
         assert issubclass(model, BaseTransaction)
-
         Meta = type('Meta',
                     (object,),
                     {'model': model,
-                     'fields': '__all__'
+                     'fields': '__all__',
+                     'ref_name': model.__name__,  # add this field for swagger
                      })
 
         Serializer = type('TransactionSerializer',

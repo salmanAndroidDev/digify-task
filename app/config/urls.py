@@ -9,10 +9,6 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Digify API",
         default_version='v1',
-        description="Test description",
-        terms_of_service="https://www.digikala.com",
-        contact=openapi.Contact(email="info@digify.com"),
-        license=openapi.License(name="MIT License"),
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
@@ -24,7 +20,6 @@ urlpatterns = [
     path('bank/', include('bank.urls')),
 
 
-    # TODO It's not working, fix it.
     url(r'^swagger(?P<format>\.json|\.yaml)$',
         schema_view.without_ui(cache_timeout=0),
         name='schema-json'),
