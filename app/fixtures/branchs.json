@@ -1,0 +1,24 @@
+[
+{
+    "model": "bank.branch",
+    "pk": "4a35ee89-e11b-4bdc-b517-b7f8901829c3",
+    "fields": {
+        "created": "2021-10-06T07:01:13.036Z",
+        "bank": "aa205688-43ab-477b-b9ee-ce191d2fc291",
+        "name": "USB",
+        "address": "University of S & B",
+        "teller": 1
+    }
+},
+{
+    "model": "bank.branch",
+    "pk": "7d804dbf-a1f2-4cd7-827c-006dbbac3f59",
+    "fields": {
+        "created": "2021-10-06T07:01:34.237Z",
+        "bank": "aa205688-43ab-477b-b9ee-ce191d2fc291",
+        "name": "Kotij",
+        "address": "Kotij, ali house",
+        "teller": 34
+    }
+}
+]

@@ -9,5 +9,11 @@ to see above chart just click on this [**link**](https://lucid.app/luart/63b665c
 to run this project you need to have `docker` and `docker-compose` installed, then type below command in the terminal<br>
 `docker-compose up`<br>
 if you like to apply tests, then type below command<br>
-`docker-compose run web sh -c "cd app && python manage.py test && flake8"`<br>
+`docker-compose run web sh -c "cd app && python manage.py test && flake8"`<br><br>
+to load data from `fixtures` type below commands in order<br>
+`docker-compose run web sh -c "cd app && ./manage.py loaddata fixtures/users"`<br>
+`docker-compose run web sh -c "cd app && ./manage.py loaddata fixtures/bank"`<br>
+`docker-compose run web sh -c "cd app && ./manage.py loaddata fixtures/branches"`<br>
+`docker-compose run web sh -c "cd app && ./manage.py loaddata fixtures/accounts"`<br>
+`docker-compose run web sh -c "cd app && ./manage.py loaddata fixtures/transactionss"`<br>
 to see API documentation lookup `http://localhost:8000/swagger/` url<br>

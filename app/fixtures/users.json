@@ -1,0 +1,107 @@
+[
+{
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$oPBP2iBywq7cZ4iUBU0bM1$nY6cf3iSR/hixzRw9pv7rn+fM1txYaNQHU5thUY4Xrk=",
+        "last_login": "2021-10-06T06:54:16Z",
+        "is_superuser": true,
+        "email": "salman@gmail.com",
+        "name": "Salman Barani",
+        "is_active": true,
+        "is_staff": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 34,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$iEvuahtt5nxAPsoCdsC9J0$ooMpgVCgIYhTeIR/X7pZ58jOI2NXIsVuo94YM5BDfUU=",
+        "last_login": null,
+        "is_superuser": false,
+        "email": "ali@gmail.com",
+        "name": "Ali Barani",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 35,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$FVdYkhegvbZ4CIh1oWhuoG$yjJV+No28l/RPwNKjFYapntSJkKVbKuwfYNr36z87fw=",
+        "last_login": null,
+        "is_superuser": false,
+        "email": "mohammad@gmail.com",
+        "name": "Mohammad Barani",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 36,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$uWNNq9QI3j9kFqIa6hT0yd$q8HiWxcekxFPAPcrAnQiJioDdijE49fW1NKyGs5wJSI=",
+        "last_login": null,
+        "is_superuser": false,
+        "email": "ahmmad@gmail.com",
+        "name": "Ahmmad Barani",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 37,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$or5uzcfJjwnfMdSbFT8FvI$lePqy1T/15OvTCWqdPZOCg1tTvv48Mdctxr+AYVCVoM=",
+        "last_login": null,
+        "is_superuser": false,
+        "email": "yaser@gmail.com",
+        "name": "Yaser Barani",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 38,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$d2omANbTrMKU5e3CUDA8lp$drNC09HbH7DLLI+sLU7oET8htz8VP8pT61+m7MRkjY4=",
+        "last_login": null,
+        "is_superuser": false,
+        "email": "jasom@gmail.com",
+        "name": "Jasom Barani",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 39,
+    "fields": {
+        "password": "pbkdf2_sha256$260000$jj2GxMA8ga9xAyorjZ3GQW$tCh4/VuIl2o9AK5G4loHYxnqzh+mFeW7jab1mzY8Tu0=",
+        "last_login": null,
+        "is_superuser": false,
+        "email": "hossain@gmail.com",
+        "name": "Hossain Jalili",
+        "is_active": true,
+        "is_staff": false,
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

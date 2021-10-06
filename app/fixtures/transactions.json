@@ -1,0 +1,52 @@
+[
+{
+    "model": "bank.transaction",
+    "pk": "310ca260-441b-4ba3-bde5-5e6d15c8d1ee",
+    "fields": {
+        "created": "2021-10-06T07:42:53.926Z",
+        "branch": "4a35ee89-e11b-4bdc-b517-b7f8901829c3",
+        "transaction_ct": 14,
+        "transaction_id": "99ae5f5a-550d-4c96-a3cb-cfe5fe49e2cb"
+    }
+},
+{
+    "model": "bank.transaction",
+    "pk": "6b51635a-4839-4b0b-b46b-3b6acfb7a887",
+    "fields": {
+        "created": "2021-10-06T07:49:14.541Z",
+        "branch": "7d804dbf-a1f2-4cd7-827c-006dbbac3f59",
+        "transaction_ct": 12,
+        "transaction_id": "59b2c8cd-4083-42e9-ae9f-169b900391de"
+    }
+},
+{
+    "model": "bank.transaction",
+    "pk": "7d9e10ff-cd4a-4ed3-8da2-e1445f02f19c",
+    "fields": {
+        "created": "2021-10-06T07:48:43.398Z",
+        "branch": "7d804dbf-a1f2-4cd7-827c-006dbbac3f59",
+        "transaction_ct": 12,
+        "transaction_id": "057d2e47-c73e-4e53-b400-f8146d8fab22"
+    }
+},
+{
+    "model": "bank.transaction",
+    "pk": "cf04b592-a045-46e6-8b36-90e39016b55d",
+    "fields": {
+        "created": "2021-10-06T07:43:12.824Z",
+        "branch": "7d804dbf-a1f2-4cd7-827c-006dbbac3f59",
+        "transaction_ct": 14,
+        "transaction_id": "609ab640-8385-49a1-9a56-f35ff9802ad1"
+    }
+},
+{
+    "model": "bank.transaction",
+    "pk": "db731bfb-3ab8-4e99-8363-451d5a5c36c7",
+    "fields": {
+        "created": "2021-10-06T07:48:26.189Z",
+        "branch": "7d804dbf-a1f2-4cd7-827c-006dbbac3f59",
+        "transaction_ct": 12,
+        "transaction_id": "d1437d7d-49ec-4301-ae1e-a74114a1d31f"
+    }
+}
+]

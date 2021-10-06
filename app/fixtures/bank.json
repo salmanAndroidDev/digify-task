@@ -1,0 +1,12 @@
+[
+{
+    "model": "bank.bank",
+    "pk": "aa205688-43ab-477b-b9ee-ce191d2fc291",
+    "fields": {
+        "created": "2021-10-06T06:58:28.046Z",
+        "name": "Digipay",
+        "address": "Tehran, Milad Tower",
+        "banker": 39
+    }
+}
+]

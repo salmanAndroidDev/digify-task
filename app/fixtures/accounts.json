@@ -1,0 +1,79 @@
+[
+{
+    "model": "bank.account",
+    "pk": "2862db5a-b880-49ac-b8ec-3767f14a66cc",
+    "fields": {
+        "created": "2021-10-06T07:04:09.269Z",
+        "user": 36,
+        "branch": "4a35ee89-e11b-4bdc-b517-b7f8901829c3",
+        "number": 1111111111111114,
+        "balance": "500.00"
+    }
+},
+{
+    "model": "bank.account",
+    "pk": "383c2646-45c8-4fbc-97a8-b20096b30675",
+    "fields": {
+        "created": "2021-10-06T07:03:46.145Z",
+        "user": 35,
+        "branch": "4a35ee89-e11b-4bdc-b517-b7f8901829c3",
+        "number": 1111111111111113,
+        "balance": "1000.00"
+    }
+},
+{
+    "model": "bank.account",
+    "pk": "8a70ceb3-9190-46d4-a2fe-acd9f7ee665e",
+    "fields": {
+        "created": "2021-10-06T07:03:30.840Z",
+        "user": 34,
+        "branch": "4a35ee89-e11b-4bdc-b517-b7f8901829c3",
+        "number": 1111111111111112,
+        "balance": "200.00"
+    }
+},
+{
+    "model": "bank.account",
+    "pk": "a2ed13bb-160a-40d7-82bd-0b42a028c737",
+    "fields": {
+        "created": "2021-10-06T07:04:46.027Z",
+        "user": 38,
+        "branch": "7d804dbf-a1f2-4cd7-827c-006dbbac3f59",
+        "number": 1111111111111117,
+        "balance": "120.00"
+    }
+},
+{
+    "model": "bank.account",
+    "pk": "b2e18eeb-09e0-4767-b929-98d65244c06b",
+    "fields": {
+        "created": "2021-10-06T07:05:05.265Z",
+        "user": 39,
+        "branch": "7d804dbf-a1f2-4cd7-827c-006dbbac3f59",
+        "number": 1111111111111119,
+        "balance": "10004900.00"
+    }
+},
+{
+    "model": "bank.account",
+    "pk": "bd407f1a-2628-48f2-be37-2e4970a4430f",
+    "fields": {
+        "created": "2021-10-06T07:02:39.810Z",
+        "user": 1,
+        "branch": "4a35ee89-e11b-4bdc-b517-b7f8901829c3",
+        "number": 1111111111111111,
+        "balance": "200.00"
+    }
+},
+{
+    "model": "bank.account",
+    "pk": "eb58cdb5-b372-4721-9db6-752a4950c7ff",
+    "fields": {
+        "created": "2021-10-06T07:04:26.036Z",
+        "user": 37,
+        "branch": "7d804dbf-a1f2-4cd7-827c-006dbbac3f59",
+        "number": 1111111111111116,
+        "balance": "120.00"
+    }
+}
+]
