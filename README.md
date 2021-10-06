@@ -15,5 +15,8 @@ to load data from `fixtures` type below commands in order<br>
 `docker-compose run web sh -c "cd app && ./manage.py loaddata fixtures/bank"`<br>
 `docker-compose run web sh -c "cd app && ./manage.py loaddata fixtures/branches"`<br>
 `docker-compose run web sh -c "cd app && ./manage.py loaddata fixtures/accounts"`<br>
-`docker-compose run web sh -c "cd app && ./manage.py loaddata fixtures/transactionss"`<br>
+`docker-compose run web sh -c "cd app && ./manage.py loaddata fixtures/transactionss"`<br><br>
+
+to see admin panel browse `localhost:8000/admin` url, then you can create `supeuser` to see added data<br><br>
+
 to see API documentation lookup `http://localhost:8000/swagger/` url<br>
